@@ -66,10 +66,21 @@ const colorLegend = d3.legendColor()
 const row = d => {
     d.participant = +d.participant;
     d.pci = +d.pci;
+    d.measurement = +d.measurement;
     return d;
 };
 
 d3.tsv('../data/pci_data.tsv', row, data => {
+    const maxValues = _.chain(data)
+        .groupBy(d => d.participant)
+        .mapValues(items => _.maxBy(items, d => d.pci))
+        .values().value();
+    
+    data.forEach(d => {
+        const v = _.find(maxValues, o => o.measurement == d.measurement)
+        d.max = v ? true : false;
+    });
+
     xScale
         .domain(d3.extent(data, xValue))
         .range([0, innerWidth])
@@ -85,8 +96,8 @@ d3.tsv('../data/pci_data.tsv', row, data => {
         .attr('cx', d => xScale(xValue(d)))
         .attr('cy', d => yScale(yValue(d)))
         .attr('fill', d => colorScale(colorValue(d)))
-        .attr('fill-opacity', 0.6)
-        .attr('r', 5);
+        .attr('fill-opacity', d => d.max ? 0.6 : 0.25)
+        .attr('r', d => d.max ? 5 : 2.5);
 
     xAxisG.call(xAxis);
     yAxisG.call(yAxis);
