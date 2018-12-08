@@ -4,13 +4,34 @@
         <script src="https://d3js.org/d3.v4.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/d3-legend/2.24.0/d3-legend.min.js"></script>
         <title>PCI Visualization</title>
+        <link href="https://fonts.googleapis.com/css?family=Poppins|Montserrat" rel="stylesheet">
         <style>
             body {
-                margin: 0px;
+                margin: 20px 20px;
+                font-family: 'Poppins';
             }
 
             .domain {
                 display: none;
+            }
+
+            .title {
+                margin: 0px auto;
+                text-align: center;
+                color: #635F5D;
+            }
+
+            .paper-link  {
+                margin: 0px auto;
+                text-align: center;
+                display: block;
+                text-decoration: none;
+                color: #635F5D;
+                transition: color 200ms;
+            }
+
+            .paper-link:hover {
+                color: #8E8883;
             }
 
             .tick line {
@@ -20,21 +41,31 @@
             .tick text,
             .legendCells text {
                 fill: #8E8883;
-                font-size: 28pt;
-                font-family: sans-serif;
+                font-size: 12px;
+                text-transform: capitalize;
+                font-family: 'Poppins';
             }
 
             .axis-label,
             .legend-label {
                 fill: #635F5D;
-                font-size: 50pt;
-                font-family: sans-serif;
+                font-weight: bold;
+                font-size: 30px;
+                font-family: 'Poppins';
+            }
+
+            #viz {
+                display: block;
+                margin: 0px auto;
             }
         </style>
     </head>
 
     <body>
-        <svg width="960" height="500"></svg>
+        <h1 class="title">Perturbational Complexity Index</h1>
+        <a class="paper-link" href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5132045/" target="_blank">View original paper</a>
+        <br />
+        <svg id="viz" width="960" height="500"></svg>
         <script>
             const xValue = d => d.participant;
             const xLabel = 'Participants';
@@ -42,7 +73,7 @@
             const yValue = d => d.pci;
             const yLabel = 'PCI';
 
-            const colorValue = d => d.state;
+            const colorValue = d => d.state.replace('_', ' ');
             const colorLabel = 'State';
 
             const margin = { left: 120, right: 300, top: 20, bottom: 120 };
@@ -59,26 +90,26 @@
                 .attr('transform', `translate(0, ${innerHeight})`);
             const yAxisG = g.append('g');
             const colorLegendG = g.append('g')
-                .attr('transform', `translate(${innerWidth + 60}, 150)`);
+                .attr('transform', `translate(${innerWidth + 70}, 100)`);
 
             xAxisG.append('text')
                 .attr('class', 'axis-label')
                 .attr('x', innerWidth / 2)
-                .attr('y', 100)
+                .attr('y', 70)
                 .text(xLabel);
 
             yAxisG.append('text')
                 .attr('class', 'axis-label')
                 .attr('x', -innerHeight / 2)
-                .attr('y', -60)
+                .attr('y', -50)
                 .attr('transform', `rotate(-90)`)
                 .style('text-anchor', 'middle')
                 .text(yLabel);
 
             colorLegendG.append('text')
                 .attr('class', 'legend-label')
-                .attr('x', -30)
-                .attr('y', -40)
+                .attr('x', 5)
+                .attr('y', -30)
                 .text(colorLabel);
 
             const xScale = d3.scaleLinear();
@@ -124,7 +155,7 @@
                     .attr('cy', d => yScale(yValue(d)))
                     .attr('fill', d => colorScale(colorValue(d)))
                     .attr('fill-opacity', 0.6)
-                    .attr('r', 8);
+                    .attr('r', 5);
 
                 xAxisG.call(xAxis);
                 yAxisG.call(yAxis);
