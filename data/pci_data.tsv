@@ -142,7 +142,7 @@ measurement	participant	pci	state
 140	72	0.4927	wakefulness
 141	73	0.4122	wakefulness
 142	73	0.4721	wakefulness
-143	73	0.3148	wakefulness
+143	73	0.5021	wakefulness
 144	74	0.5733	wakefulness
 145	74	0.622	wakefulness
 146	75	0.5433	wakefulness
@@ -416,7 +416,7 @@ measurement	participant	pci	state
 414	173	0.4328	cortical_stroke
 415	174	0.4328	cortical_stroke
 416	174	0.4515	cortical_stroke
-417	174	0.6689	cortical_stroke
+417	174	0.4815	cortical_stroke
 418	174	0.5433	cortical_stroke
 419	175	0.4328	cortical_stroke
 420	175	0.4515	cortical_stroke
